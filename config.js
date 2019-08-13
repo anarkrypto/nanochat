@@ -1,0 +1,22 @@
+// Change this file as you need it
+
+const config = {
+	port: 7076,
+}
+
+const node = {
+	// default remote Node
+	default: 'remote',
+	remote: {
+		address: '188.166.149.243',
+		...config,
+		protocol: 'http'
+	},
+
+	// default local node
+	local: {
+		address: '127.0.0.1',
+		...config,
+		protocol: 'http'
+	}
+}
