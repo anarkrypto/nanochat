@@ -101,12 +101,13 @@ btnPrev.addEventListener('click', function() {
 btnSendMessage.addEventListener('click', function() {
 	var message = document.querySelector("#myMessageBox input").value
 	var spentAmount = RawTo(ascii_to_base100(message), MegaXRB)
-	document.querySelector("div.popup div.content").innerHTML = "<p>Your word <strong>\"" + message + "\"</strong> has " + message.length + " characters.</p>" +
+	document.querySelector("div.popup div.content").innerHTML = "<p>Your message <span class=\"yourMessage\"></span> has " + message.length + " characters.</p>" +
 	"<p>To display this message in chat, send exactly this amount: <br><strong>" +	spentAmount + "</strong> Nano <br> to this account: <strong>" + walletAccount + "</strong>" +
 	"</p><div id=\"qrcode\"></div><p><a href=\"nano:" + walletAccount + "?amount=" + ascii_to_base100(message) + "\">Or open URI in your Nano wallet</a>" +
 	"<p>After that wait for the chat to reload. Remember that the message will be <strong>saved forever!</strong></p>" +
-	"<p>Recommended wallets: <br>Online: <a href=\"https://nanovault.io\" target=\"_blank\">NanoVault.io</a> (minimum accepted is 0.000001)</p>"
-
+	"<p>Recommended wallets: <br>Online: <a href=\"https://nanovault.io\" target=\"_blank\">NanoVault.io</a> (minimum accepted is 0.000001)<br>Desktop or mobile (Android & iOS): <a href=\"https://nanowalletcompany.com/\">NanoWalletCompany</a></p><p><strong style=\"color: red\">Attention!</strong> Do not use the following wallets: <strong>Natrium</strong>, <strong>Nanowallet.io</strong> - These wallets do not support micro-transactions.</strong>"
+	document.querySelector("div.popup div.content .yourMessage").innerText = message
+	
 	 var typeNumber = 6;
 	 var errorCorrectionLevel = 'L';
 	 var qr = qrcode(typeNumber, errorCorrectionLevel);

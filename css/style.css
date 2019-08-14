@@ -707,3 +707,7 @@ div.howMuchSpend {
 	text-align: center;
 	color: #666;
 }
+
+#chat li span.content, div.popup div.content .yourMessage  {
+	font-weight: 900;
+}

@@ -130,10 +130,16 @@ function reloadChat (account) {
           "hash": block
         }
         requestJSON ( node[node.default].protocol + "://" + node[node.default].address + ":" + node[node.default].port, data, function(json) {
-          var spent = RawTo(json.amount, MegaXRB)
-          var local_timestamp = timeConverter(json.local_timestamp)
-          var liMsg = "<li id=\"ts" + json.local_timestamp + "\" class=\"msg\"><span class=\"info\">Message:</span> <strong>" + base100_to_ascii(json.amount) + "</strong> <br><br><span class=\"info\">From:</span> " + json.block_account + "<br><span class=\"info\">Spent:</span> " + spent + "<br><span class=\"info\">Node Timestamp:</span> " + local_timestamp  + "<br><span class=\"info\">Block:</span> <a href=\"https://nanode.co/block/" + block + "\" target=\"_blank\">" + block.substr(0, 32) + "...<a></li>"
-          if (document.querySelector("#chat ul li#ts" + json.local_timestamp) === null) document.querySelector("#chat ul").innerHTML += liMsg
+          var liMsg = "<li id=\"ts" + json.local_timestamp + "\" class=\"msg\"><span class=\"info\">Message:</span> <span class=\"content\"></span> <br><br><span class=\"info\">From:</span> <span class=\"account\"></span><br><span class=\"info\">Spent:</span> <span class=\"spent\"></span><br><span class=\"info\">Node Timestamp:</span> <span class=\"timestamp\"></span><br><span class=\"info\">Block:</span> <a class=\"block\" href=\"\" target=\"_blank\"><a></li>"
+          if (document.querySelector("#chat ul li#ts" + json.local_timestamp) === null) {
+            document.querySelector("#chat ul").innerHTML += liMsg
+            document.querySelector("li#ts" + json.local_timestamp + " span.content").innerText = base100_to_ascii(json.amount)
+            document.querySelector("li#ts" + json.local_timestamp + " span.account").innerText = json.block_account
+            document.querySelector("li#ts" + json.local_timestamp + " span.spent").innerText = RawTo(json.amount, MegaXRB)
+            document.querySelector("li#ts" + json.local_timestamp + " span.timestamp").innerText = timeConverter(json.local_timestamp)
+            document.querySelector("li#ts" + json.local_timestamp + " a.block").src += "https://nanode.co/block/" + block
+            document.querySelector("li#ts" + json.local_timestamp + " a.block").innerText =  block.substr(0, 38) + "..."
+          }
         });
       }
       progress(3)

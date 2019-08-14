@@ -8,7 +8,7 @@ const node = {
 	// default remote Node
 	default: 'remote',
 	remote: {
-		address: '188.166.149.243',
+		address: '139.59.202.16',
 		...config,
 		protocol: 'http'
 	},
