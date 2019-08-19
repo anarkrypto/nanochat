@@ -124,24 +124,25 @@ function reloadChat (account) {
     if (json.blocks == undefined){
       alert ("Invalid Account")
     } else {
-      for (var block of json.blocks[account]) {
-        data = {
-          "action": "block_info",
-          "hash": block
+      json.blocks[account].forEach(async block => {
+        const body = JSON.stringify({ action: 'block_info', hash: await block })
+        const { protocol, address, port } = node[node.default]
+        const response = await fetch(`${protocol}://${address}:${port}`, { method: 'POST', body })
+        const json = await response.json()
+
+        const { local_timestamp, amount, block_account } = await json
+        const parent = `li#ts${json.local_timestamp}`
+        const liMsg = `<li id="ts${local_timestamp}" class="msg"><span class="info">Message:</span> <span class="content"></span> <br><br><span class="info">From:</span> <span class="account"></span><br><span class="info">Spent:</span> <span class="spent">RawTo(amount, MegaXRB)</span><br><span class="info">Node Timestamp:</span> <span class="timestamp"></span><br><span class="info">Block:</span> <a class="block" target="_blank"><a></li>`
+        if (!document.querySelector(`#chat ul ${parent}`)) {
+          document.querySelector('#chat ul').innerHTML += liMsg
+          document.querySelector(`${parent} span.content`).innerText = base100_to_ascii(amount)
+          document.querySelector(`${parent} span.account`).innerText = block_account
+          document.querySelector(`${parent} span.spent`).innerText = RawTo(amount, MegaXRB)
+          document.querySelector(`${parent} span.timestamp`).innerText = timeConverter(local_timestamp)
+          document.querySelector(`${parent} a.block`).href = `https://nanode.co/block/${block}` 
+          document.querySelector(`${parent} a.block`).innerText = `${block.substr(0, 38)}...`
         }
-        requestJSON ( node[node.default].protocol + "://" + node[node.default].address + ":" + node[node.default].port, data, function(json) {
-          var liMsg = "<li id=\"ts" + json.local_timestamp + "\" class=\"msg\"><span class=\"info\">Message:</span> <span class=\"content\"></span> <br><br><span class=\"info\">From:</span> <span class=\"account\"></span><br><span class=\"info\">Spent:</span> <span class=\"spent\"></span><br><span class=\"info\">Node Timestamp:</span> <span class=\"timestamp\"></span><br><span class=\"info\">Block:</span> <a class=\"block\" href=\"\" target=\"_blank\"><a></li>"
-          if (document.querySelector("#chat ul li#ts" + json.local_timestamp) === null) {
-            document.querySelector("#chat ul").innerHTML += liMsg
-            document.querySelector("li#ts" + json.local_timestamp + " span.content").innerText = base100_to_ascii(json.amount)
-            document.querySelector("li#ts" + json.local_timestamp + " span.account").innerText = json.block_account
-            document.querySelector("li#ts" + json.local_timestamp + " span.spent").innerText = RawTo(json.amount, MegaXRB)
-            document.querySelector("li#ts" + json.local_timestamp + " span.timestamp").innerText = timeConverter(json.local_timestamp)
-            document.querySelector("li#ts" + json.local_timestamp + " a.block").src += "https://nanode.co/block/" + block
-            document.querySelector("li#ts" + json.local_timestamp + " a.block").innerText =  block.substr(0, 38) + "..."
-          }
-        });
-      }
+      })
       progress(3)
       progress (2)
       chatLoop ()
