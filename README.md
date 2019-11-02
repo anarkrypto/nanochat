@@ -1,7 +1,7 @@
 # nanochat
 A decentralized chat based on Nano transactions
 
-## Demo: http://nanochat0.000webhostapp.com/
+## Demo: https://anarkrypto.github.io/nanochat/
 (To connect to nodes without ssl, we cannot use this chat with https. So I am not using GitHub Pages as it uses https. Then use the link above or download the files )
 
 ### Introduction:
