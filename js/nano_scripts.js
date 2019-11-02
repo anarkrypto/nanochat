@@ -4,6 +4,10 @@ function updateNode (selectedNode) {
     node.remote.address = document.querySelector("#remote_address").value
     node.remote.port = document.querySelector("#remote_apiPort").value
     node.remote.protocol = document.querySelector("#remoteProtocol").querySelector("li.active").innerText.toLowerCase()
+    if (location.protocol === 'https:' && node.remote.protocol == "http") {
+       node.remote.protocol = "https"
+	     node.remote.address = "cors-anywhere.herokuapp.com/" + node.remote.address
+    }
   }
 
   if (selectedNode == "local") {
@@ -139,7 +143,7 @@ function reloadChat (account) {
           document.querySelector(`${parent} span.account`).innerText = block_account
           document.querySelector(`${parent} span.spent`).innerText = RawTo(amount, MegaXRB)
           document.querySelector(`${parent} span.timestamp`).innerText = timeConverter(local_timestamp)
-          document.querySelector(`${parent} a.block`).href = `https://nanode.co/block/${block}` 
+          document.querySelector(`${parent} a.block`).href = `https://nanode.co/block/${block}`
           document.querySelector(`${parent} a.block`).innerText = `${block.substr(0, 38)}...`
         }
       })
