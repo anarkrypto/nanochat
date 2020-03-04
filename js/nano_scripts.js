@@ -114,7 +114,7 @@ function offline (selectedNode) {
 
 
 function reloadChat (account) {
-  if (nodeVersion >= 19.0) {
+  if (nodeVersion >= 19.0 || true) { //temporary
     account = "nano_" + account.split("_")[1]
   } else {
     account = "xrb_" + account.split("_")[1]
